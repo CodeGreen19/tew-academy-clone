@@ -3,12 +3,12 @@ import React from "react";
 const data = {
   navMain: [
     {
-      title: "Dashboard",
+      title: "Overviews",
 
       items: [
         {
-          title: "Overviews",
-          url: "/dashboard/overviews",
+          title: "analytics",
+          url: "/dashboard/overviews/analytics",
         },
       ],
     },
