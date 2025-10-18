@@ -1,7 +1,8 @@
 import { ThemeProvider } from "@/components/theme-provider";
+import MarketingLayout from "@/features/marketing/layout";
 import React from "react";
 
-export default function layout({ children }: LayoutProps<"/">) {
+export default function layout(props: LayoutProps<"/">) {
   return (
     <main>
       <ThemeProvider
@@ -10,7 +11,7 @@ export default function layout({ children }: LayoutProps<"/">) {
         enableSystem
         forcedTheme="dark"
       >
-        {children}
+        <MarketingLayout {...props} />
       </ThemeProvider>
     </main>
   );

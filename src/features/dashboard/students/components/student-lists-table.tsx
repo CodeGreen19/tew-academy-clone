@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { getQueryClient } from "@/lib/react-query/get-query-client";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Trash } from "lucide-react";
 import { deleteStudent } from "../actions";
 import { getStudentLists } from "../queries";
+import { getQueryClient } from "@/tanstack-query/get-query-client";
 
 export function StudentListsTable() {
   const { data: lists } = useSuspenseQuery({

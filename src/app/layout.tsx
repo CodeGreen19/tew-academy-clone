@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import Providers from "@/lib/react-query/provider";
+import QueryProviders from "@/tanstack-query/query-provider";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${outfit.variable} antialiased font-outfit`}>
-        <Providers>{children}</Providers>
+        <QueryProviders>{children}</QueryProviders>
         <Toaster closeButton />
       </body>
     </html>

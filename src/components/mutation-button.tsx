@@ -1,11 +1,11 @@
 "use client";
 
-import { getQueryClient } from "@/lib/react-query/get-query-client";
 import { useMutation } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { LoadingSwap } from "./ui/loading-swap";
+import { getQueryClient } from "@/tanstack-query/get-query-client";
 
 type MutationButtonType = {
   action: () => Promise<{

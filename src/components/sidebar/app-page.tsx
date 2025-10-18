@@ -20,13 +20,17 @@ import DarkThemeToggle from "../dark-theme-toggle";
 export function AppPage({
   children,
   data,
+  institutionName,
+  type,
 }: {
   children: ReactNode;
   data: NavData;
+  type: "branch" | "admin";
+  institutionName?: string;
 }) {
   return (
     <SidebarProvider>
-      <AppSidebar data={data} />
+      <AppSidebar data={data} type={type} institutionName={institutionName} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 border-b">
           <div className="flex items-center gap-2 px-3">
