@@ -7,13 +7,16 @@ export default function DarkThemeToggle() {
   const { theme, setTheme } = useTheme();
   return (
     <div
-      className={cn(
-        "p-1  rounded-lg",
-        theme === "light" ? "hover:bg-accent" : "invert"
-      )}
+      className={cn("p-1  rounded-lg")}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
-      <Image alt="theme" src={"/dark-theme.svg"} height={20} width={20} />
+      <Image
+        alt="theme"
+        src={"/dark-theme.svg"}
+        className="dark:invert rounded-full"
+        height={20}
+        width={20}
+      />
     </div>
   );
 }
