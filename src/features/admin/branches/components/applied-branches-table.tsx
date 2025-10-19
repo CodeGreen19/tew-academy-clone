@@ -13,25 +13,24 @@ import {
   CheckBoxCell,
   CheckBoxHeader,
 } from "@/components/table/data-table-select-checkbox";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
 import {
   DropdownMenuItem,
   DropdownMenuPortal,
-  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LoadingSwap } from "@/components/ui/loading-swap";
+import { applyBranches } from "@/drizzle/schema";
+import { cn } from "@/lib/utils";
 import { getQueryClient } from "@/tanstack-query/get-query-client";
 import { useRef } from "react";
 import { toast } from "sonner";
 import { applyBranchChangeStatus, deleteApplyBranchRecord } from "../actions";
 import AppliedBranchesPreview from "./applied-branches-preview";
-import { Badge } from "@/components/ui/badge";
-import { applyBranches } from "@/drizzle/schema";
-import { cn } from "@/lib/utils";
 
 type AppliedBranchType = Awaited<
   ReturnType<typeof getAllAppliedBranches>
