@@ -3,7 +3,6 @@
 import CustomFormField from "@/components/form/custom-form-field";
 import FormSubmitButtons from "@/components/form/form-submit-buttons";
 import { Form } from "@/components/ui/form";
-import { getQueryClient } from "@/lib/react-query/get-query-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -14,6 +13,7 @@ import {
   AddStudentSchemaShape,
   AddStudentSchemaType,
 } from "../schema";
+import { getQueryClient } from "@/tanstack-query/get-query-client";
 
 export default function StudentAddForm() {
   const queryClient = getQueryClient();

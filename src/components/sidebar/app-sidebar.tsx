@@ -1,6 +1,6 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react";
+import { GalleryVerticalEnd, LayoutDashboard } from "lucide-react";
 import * as React from "react";
 
 import {
@@ -22,8 +22,14 @@ import Link from "next/link";
 
 export function AppSidebar({
   data,
+  type,
+  institutionName,
   ...props
-}: React.ComponentProps<typeof Sidebar> & { data: NavData }) {
+}: React.ComponentProps<typeof Sidebar> & {
+  data: NavData;
+  type: "admin" | "branch";
+  institutionName?: string;
+}) {
   const pathname = usePathname();
   const originalPathname = pathname.split("?")[0];
   return (
@@ -34,12 +40,18 @@ export function AppSidebar({
             <SidebarMenuButton size="lg" asChild>
               <div>
                 <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-10 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-5 text-primary-foreground" />
+                  {type === "branch" ? (
+                    <GalleryVerticalEnd className="size-5 text-primary-foreground" />
+                  ) : (
+                    <LayoutDashboard className="size-5 text-primary-foreground" />
+                  )}
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium text-xl">Dashboard</span>
-                  <span className="text-muted-foreground">
-                    The earn way academy
+                  <span className="font-medium text-xl">
+                    {type === "admin" ? "Admin Panel" : "Dashboard"}
+                  </span>
+                  <span className="text-muted-foreground truncate">
+                    {institutionName}
                   </span>
                 </div>
               </div>

@@ -37,5 +37,9 @@ const data = {
 export default async function DashboardLayout({
   children,
 }: LayoutProps<"/dashboard">) {
-  return <AppPage data={data}>{children}</AppPage>;
+  return (
+    <AppPage type="branch" institutionName="The earn way academy" data={data}>
+      {children}
+    </AppPage>
+  );
 }

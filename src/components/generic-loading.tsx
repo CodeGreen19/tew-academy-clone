@@ -1,7 +1,7 @@
 import React from "react";
 import { Spinner } from "./ui/spinner";
 
-export default function GenericSkeleton() {
+export default function GenericLoading() {
   return (
     <div className="flex items-center justify-center gap-2 w-full text-primary">
       <Spinner />
