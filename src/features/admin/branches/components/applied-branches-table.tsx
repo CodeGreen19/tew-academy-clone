@@ -15,12 +15,23 @@ import {
 } from "@/components/table/data-table-select-checkbox";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@/components/ui/dialog";
+import {
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LoadingSwap } from "@/components/ui/loading-swap";
 import { getQueryClient } from "@/tanstack-query/get-query-client";
 import { useRef } from "react";
 import { toast } from "sonner";
-import { deleteApplyBranchRecord } from "../actions";
+import { applyBranchChangeStatus, deleteApplyBranchRecord } from "../actions";
 import AppliedBranchesPreview from "./applied-branches-preview";
+import { Badge } from "@/components/ui/badge";
+import { applyBranches } from "@/drizzle/schema";
+import { cn } from "@/lib/utils";
 
 type AppliedBranchType = Awaited<
   ReturnType<typeof getAllAppliedBranches>
@@ -47,6 +58,24 @@ export const columns: ColumnDef<AppliedBranchType>[] = [
     },
   },
   {
+    accessorKey: "status",
+
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Status" />;
+    },
+    cell: ({ row }) => {
+      const status = row.original.status;
+      return (
+        <Badge
+          className={cn(status === "canceled" && "text-destructive/80")}
+          variant={status === "approved" ? "default" : "outline"}
+        >
+          {row.original.status}
+        </Badge>
+      );
+    },
+  },
+  {
     accessorKey: "address",
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Address" />;
@@ -65,18 +94,71 @@ export const columns: ColumnDef<AppliedBranchType>[] = [
           },
         },
         {
+          title: "Status",
+          job: {
+            show: "plain",
+            component: (
+              <ChangeStatus id={row.original.id} status={row.original.status} />
+            ),
+          },
+        },
+      ];
+      row.original.status !== "approved" &&
+        actionItems.push({
           title: "Delete Record",
           job: {
             show: "dialog",
             component: <DeleteRecord id={row.original.id} />,
           },
           className: "text-red-500",
-        },
-      ];
+        });
       return <DataTableActionDropdown items={actionItems} />;
     },
   },
 ];
+
+function ChangeStatus({
+  id,
+  status,
+}: {
+  status: (typeof applyBranches.status.enumValues)[number];
+  id: string;
+}) {
+  const qc = getQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (
+      selectState: (typeof applyBranches.status.enumValues)[number]
+    ) => applyBranchChangeStatus({ id, status: selectState }),
+    onSuccess: ({ message, success }) => {
+      if (success) toast.success(message);
+      qc.invalidateQueries({ queryKey: ["apply-branch"] });
+    },
+  });
+  return status === "pending" ? (
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>Change status</DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent>
+          <DropdownMenuItem disabled>Pending</DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => mutate("approved")}
+            variant="default"
+          >
+            Approve
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => mutate("canceled")}
+            variant="destructive"
+          >
+            Cancel
+          </DropdownMenuItem>
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
+    </DropdownMenuSub>
+  ) : (
+    <DropdownMenuItem disabled>{status}</DropdownMenuItem>
+  );
+}
 
 function DeleteRecord({ id }: { id: string }) {
   const deleteRef = useRef<HTMLButtonElement | null>(null);

@@ -25,6 +25,7 @@ import { useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableSearch } from "./data-table-search";
 import { DataTableViewOptions } from "./data-table-view-options";
+import DataTableSelectedRowActions from "./data-table-selected-row-actions";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -119,6 +120,8 @@ export function DataTable<TData, TValue>({
       <div className="my-4">
         <DataTablePagination table={table} />
       </div>
+
+      <DataTableSelectedRowActions table={table} />
     </div>
   );
 }
